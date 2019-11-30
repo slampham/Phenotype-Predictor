@@ -3,13 +3,10 @@ import pickle
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from numpy import interp
-from sklearn import preprocessing
-from sklearn.datasets import load_iris
 from sklearn.metrics import roc_curve, auc, precision_recall_curve
-from sklearn.model_selection import cross_val_score, KFold
+from sklearn.model_selection import KFold
 from sklearn.multiclass import OneVsRestClassifier
-from sklearn.preprocessing import label_binarize, LabelEncoder
+from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
 from tensorflow_core.python.keras.utils import np_utils
 
@@ -56,6 +53,7 @@ def plotPR():
 
 
 # Referenced implementation: "https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc_crossval.html"
+#                            "https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html"
 def fourSVM():
     X, strain, med, env_pert, gene_pert = getData()
     ys = [strain, med, env_pert, gene_pert]

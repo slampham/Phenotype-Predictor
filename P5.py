@@ -6,9 +6,8 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc, precision_recall_curve
 from sklearn.model_selection import KFold
 from sklearn.multiclass import OneVsRestClassifier
-from sklearn.preprocessing import LabelEncoder, label_binarize
+from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.svm import SVC
-from tensorflow_core.python.keras.utils import np_utils
 
 
 def getData():
@@ -24,11 +23,16 @@ def getData():
     X = X[X.columns[reg.coef_ != 0]]
     print("Num features: ", X.shape[1])
 
-    return X, med, env_pert
+    y = pd.concat([med, env_pert], axis=1)
+    mlb = MultiLabelBinarizer()
+    y = mlb.fit_transform(y.to_numpy())
+
+    return X, y
 
 
-def plotROC():
+def plotROC(fpr, tpr, roc_auc):
     plt.figure(1)
+    plt.plot(fpr, tpr, label=f"ROC (area = {roc_auc: .2f})")
     plt.plot([0, 1], [0, 1], 'k--', lw=2)
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
@@ -39,8 +43,9 @@ def plotROC():
     plt.savefig("plots/P5-ROC.pdf")
 
 
-def plotPR():
+def plotPR(recall, precision, pr_auc):
     plt.figure(2)
+    plt.plot(recall, precision, label=f"PR (area = {pr_auc: .2f})")
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('Recall')
@@ -50,18 +55,14 @@ def plotPR():
     plt.savefig("plots/P5-PR.pdf")
 
 
-# Referenced implementation: "https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc_crossval.html"
+# Referenced implementation: "https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html"
 def compositeSVM():
-    X, med, env_pert = getData()
-    y = np.concatenate([med, env_pert])
-
-    X = np.concatenate([X, X])
-    y = label_binarize(y, np.unique(y))
+    X, y = getData()
     y_scores = []; y_tests = []
     kf = KFold(n_splits=10)
 
     for train, test in kf.split(X):
-        X_train, X_test = X[train], X[test]
+        X_train, X_test = X.iloc[train], X.iloc[test]
         y_train, y_test = y[train], y[test]
 
         classifier = OneVsRestClassifier(SVC(kernel='linear'))
@@ -79,10 +80,8 @@ def compositeSVM():
     roc_auc = auc(fpr, tpr)
     pr_auc = auc(recall, precision)
 
-    plt.figure(1)
-    plt.plot(fpr, tpr, label=f"ROC (area = {roc_auc: .2f})")
-    plt.figure(2)
-    plt.plot(recall, precision, label=f"PR (area = {pr_auc: .2f})")
+    plotROC(fpr, tpr, roc_auc)
+    plotPR(recall, precision, pr_auc)
 
 
 if __name__ == '__main__':

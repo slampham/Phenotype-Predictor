@@ -39,9 +39,9 @@ def plotROC(problem):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title("plots/P" + problem + "-ROC.pdf")
+    plt.title("plots/" + problem + "-ROC.pdf")
     plt.legend(loc="lower right")
-    plt.savefig("plots/P" + problem + "-ROC.pdf")
+    plt.savefig("plots/" + problem + "-ROC.pdf")
     plt.close(fig=1)
 
 
@@ -51,9 +51,9 @@ def plotPR(problem):
     plt.ylim([0.0, 1.05])
     plt.xlabel('Recall')
     plt.ylabel('Precision')
-    plt.title("plots/P" + problem + "-PR.pdf")
+    plt.title("plots/" + problem + "-PR.pdf")
     plt.legend(loc="lower right")
-    plt.savefig("plots/P" + problem + "-PR.pdf")
+    plt.savefig("plots/" + problem + "-PR.pdf")
     plt.close(fig=2)
 
 
@@ -61,7 +61,6 @@ def plotPR(problem):
 #                            "https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html"
 def fourSVM(X, ys, problem):
     y_names = ["strain", "med", "env_pert", "gene_pert"]
-    avg_roc_auc = []; avg_pr_auc = []
 
     for i, y in enumerate(ys):
         encoder = LabelEncoder()
@@ -94,16 +93,10 @@ def fourSVM(X, ys, problem):
         plt.figure(2)
         plt.plot(recall, precision, label="{0} (area = {1:.2f})".format(y_names[i], pr_auc))
 
-        avg_roc_auc.append(roc_auc)
-        avg_pr_auc.append(pr_auc)
-
     plotROC(problem)
     plotPR(problem)
-
-    print(f"P" + problem + f" Avg ROC_AUC: {np.mean(avg_roc_auc): .2g}")
-    print(f"P" + problem + f" Avg PR_AUC: {np.mean(avg_pr_auc): .2g}")
 
 
 if __name__ == '__main__':
     X, ys = getData()
-    fourSVM(X, ys, problem='4')
+    fourSVM(X, ys, problem='P4')

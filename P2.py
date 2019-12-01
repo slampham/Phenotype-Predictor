@@ -10,8 +10,8 @@ from sklearn.utils import resample
 
 from P1 import getData
 
-# Referenced implementation : "https://machinelearningmastery.com/prediction-intervals-for-machine-learning/"
 
+# Referenced implementation : "https://machinelearningmastery.com/prediction-intervals-for-machine-learning/"
 def bootStrap(num_times=1000, n_samples=100):
     mses = []
     X, y = getData()

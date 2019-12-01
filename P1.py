@@ -22,8 +22,8 @@ def lassoPredictor(X, y):
 
 if __name__ == '__main__':
     X, y = getData()
+    reg = pickle.load(open('models/P1.sav', 'rb'))
     # reg = lassoPredictor(X, y)      # If you want to run model again
-    reg = pickle.load(open('P1.sav', 'rb'))
 
     print(f"Optimal parameter val: {reg.alpha_ : .3g}")
     print(f"Num non-zero coeff: {np.count_nonzero(reg.coef_)}")

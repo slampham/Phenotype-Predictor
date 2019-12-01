@@ -19,7 +19,7 @@ def bootStrap(num_times=1000, n_samples=100):
         boot_data = resample(data, n_samples=n_samples, replace=True)
         Xboot = boot_data.iloc[:, :-1]
         yboot = boot_data.iloc[:, -1]
-        reg = pickle.load(open('P1.sav', 'rb'))
+        reg = pickle.load(open('models/P1.sav', 'rb'))
         MSE = np.mean((reg.predict(Xboot) - yboot)**2)
         mses.append(MSE)
 

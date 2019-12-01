@@ -19,7 +19,7 @@ def getData():
     X = df.iloc[:, 6:]
 
     # Use feature selection from P1
-    reg = pickle.load(open('P1.sav', 'rb'))
+    reg = pickle.load(open('models/P1.sav', 'rb'))
     X = X[X.columns[reg.coef_ != 0]]
     print("Num features: ", X.shape[1])
 

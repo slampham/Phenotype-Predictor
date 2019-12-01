@@ -1,4 +1,5 @@
 import pickle
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -9,6 +10,8 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
 from tensorflow_core.python.keras.utils import np_utils
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 
 def getData():
@@ -22,42 +25,43 @@ def getData():
     X = df.iloc[:, 6:]
 
     # Use feature selection from P1
-    reg = pickle.load(open('P1.sav', 'rb'))
+    reg = pickle.load(open('models/P1.sav', 'rb'))
     X = X[X.columns[reg.coef_ != 0]]
     print("Num features: ", X.shape[1])
 
-    return X, strain, med, env_pert, gene_pert
+    return X, [strain, med, env_pert, gene_pert]
 
 
-def plotROC():
+def plotROC(problem):
     plt.figure(1)
     plt.plot([0, 1], [0, 1], 'k--', lw=2)
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('ROC Multiclass')
+    plt.title("plots/P" + problem + "-ROC.pdf")
     plt.legend(loc="lower right")
-    plt.savefig("plots/P4-ROC.pdf")
+    plt.savefig("plots/P" + problem + "-ROC.pdf")
+    plt.close(fig=1)
 
 
-def plotPR():
+def plotPR(problem):
     plt.figure(2)
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('Recall')
     plt.ylabel('Precision')
-    plt.title('Precision-Recall')
+    plt.title("plots/P" + problem + "-PR.pdf")
     plt.legend(loc="lower right")
-    plt.savefig("plots/P4-PR.pdf")
+    plt.savefig("plots/P" + problem + "-PR.pdf")
+    plt.close(fig=2)
 
 
 # Referenced implementation: "https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc_crossval.html"
 #                            "https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html"
-def fourSVM():
-    X, strain, med, env_pert, gene_pert = getData()
-    ys = [strain, med, env_pert, gene_pert]
+def fourSVM(X, ys, problem):
     y_names = ["strain", "med", "env_pert", "gene_pert"]
+    avg_roc_auc = []; avg_pr_auc = []
 
     for i, y in enumerate(ys):
         encoder = LabelEncoder()
@@ -90,9 +94,16 @@ def fourSVM():
         plt.figure(2)
         plt.plot(recall, precision, label="{0} (area = {1:.2f})".format(y_names[i], pr_auc))
 
-    plotROC()
-    plotPR()
+        avg_roc_auc.append(roc_auc)
+        avg_pr_auc.append(pr_auc)
+
+    plotROC(problem)
+    plotPR(problem)
+
+    print(f"P" + problem + f" Avg ROC_AUC: {np.mean(avg_roc_auc): .2g}")
+    print(f"P" + problem + f" Avg PR_AUC: {np.mean(avg_pr_auc): .2g}")
 
 
 if __name__ == '__main__':
-    fourSVM()
+    X, ys = getData()
+    fourSVM(X, ys, problem='4')

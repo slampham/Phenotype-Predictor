@@ -1,8 +1,18 @@
+import pickle
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
+
+
+def saveModels(pca, tSNE):
+    with open('models/P6-PCA.pkl', 'wb') as f:
+        pickle.dump(pca, f)
+
+    with open('models/P6-tSNE.pkl', 'wb') as f:
+        pickle.dump(tSNE, f)
 
 
 def getData():
@@ -15,7 +25,7 @@ def getData():
     gene_pert = df.iloc[:, 4]
     X = df.iloc[:, 6:]
 
-    return X, strain, med, env_pert, gene_pert
+    return X, [strain, med, env_pert, gene_pert]
 
 
 def pltPCA(X, y):
@@ -49,8 +59,7 @@ def pltTSNE(X, y):
 
 
 def reduceDimension():
-    X, strain, med, env_pert, gene_pert = getData()
-    ys = [strain, med, env_pert, gene_pert]
+    X, ys = getData()
 
     pca = PCA(n_components=2)
     X_pca = pca.fit_transform(X)

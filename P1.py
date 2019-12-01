@@ -17,6 +17,7 @@ def getData():
 def lassoPredictor(X, y):
     reg = LassoCV(cv=5, max_iter=1000, tol=0.0075, n_jobs=-1, precompute='auto', verbose=1)
     reg.fit(X, y)
+    pickle.dump(reg, open("models/P1.pkl", 'wb'))
     return reg
 
 

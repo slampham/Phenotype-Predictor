@@ -1,7 +1,5 @@
 import pickle
-
 import pandas as pd
-
 from P4 import fourSVM, getData
 
 

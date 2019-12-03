@@ -35,12 +35,12 @@ def pltPCA(X, y):
     for c in classes:
         plt.scatter(X[y == c, 0], X[y == c, 1], label=c)
 
+    y_name = pd.DataFrame(y).columns[0]
+
     plt.legend(loc='best')
-    plt.title('PCA')
+    plt.title('plots/P6-' + 'PCA-' + y_name + '.pdf')
     plt.xlabel('Principal Component 1')
     plt.ylabel('Principal Component 2')
-
-    y_name = pd.DataFrame(y).columns[0]
     plt.savefig('plots/P6-' + 'PCA-' + y_name + '.pdf')
 
 
@@ -51,10 +51,9 @@ def pltTSNE(X, y):
     for c in classes:
         plt.scatter(X[y == c, 0], X[y == c, 1], label=c)
 
-    plt.legend(loc='best')
-    plt.title('t-SNE')
-
     y_name = pd.DataFrame(y).columns[0]
+    plt.legend(loc='best')
+    plt.title('plots/P6-' + 'tSNE-' + y_name + '.pdf')
     plt.savefig('plots/P6-' + 'tSNE-' + y_name + '.pdf')
 
 

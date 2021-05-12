@@ -4,9 +4,8 @@
 ![Example screenshot](./plots/P6-tSNE-Stress.png)
 
 ## Table of contents
-* [Technologies](#technologies)
-* [Analysis Metrics](#code-examples)
-* [General info](#general-info)
+* [ML Topics Used](#ml-topics-used)
+* [Background](#background)
 * [Contact](#contact)
 
 ## ML Topics Used

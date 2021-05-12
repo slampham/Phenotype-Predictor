@@ -39,7 +39,7 @@ PR curves and reporting the AUC/AUPRC values.
 5. Create one composite SVM classifier to simultaneously predict medium and environmental
 perturbations and report the 10-fold cross-validation AUC/AUPRC value. Does this classifier
 perform better or worse than the two individual classifiers together for these predictions?
-That is, are we better off building one composite or two separate classifiers to simultaneously predict these two features? What is the baseline prediction performance (null hypothesis)? [15pt]
+That is, are we better off building one composite or two separate classifiers to simultaneously predict these two features? What is the baseline prediction performance (null hypothesis)?
 
 6. Reduce the dimensionality of gene expression profiles (i.e. last 4496 columns) to two dimensions only using both Principal Component Analysis (PCA) and t-SNE. Visualize the dataset
 in 2-d space using PCA and t-SNE separately (report two plots).

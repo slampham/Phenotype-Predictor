@@ -7,10 +7,8 @@ from sklearn.linear_model import LassoCV
 def getData():
     df = pd.read_csv('data/ecs171.dataset.txt', delim_whitespace=True)
     df = df.dropna(axis=1, how='any')
-
     growth_rate = df.iloc[:, 5]
     gene_expr = df.iloc[:, 6:]
-
     return gene_expr, growth_rate
 
 
@@ -23,9 +21,8 @@ def lassoPredictor(X, y):
 
 if __name__ == '__main__':
     X, y = getData()
-    reg = pickle.load(open('models/P1.sav', 'rb'))
-    # reg = lassoPredictor(X, y)      # If you want to run model again
+    reg = lassoPredictor(X, y)      # If you want to run model again
 
     print(f"Optimal parameter val: {reg.alpha_ : .3g}")
-    print(f"Num non-zero coeff: {np.count_nonzero(reg.coef_)}")
+    print(f"Number of non-zero coefficients: {np.count_nonzero(reg.coef_)}")
     print(f"Gen Error: {reg.mse_path_.mean() * 100 : .3g}%")

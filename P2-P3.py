@@ -1,12 +1,8 @@
 import math
 import pickle
-
-import scipy
 import numpy as np
 from sklearn.utils import resample
-
 from P1 import getData
-
 
 # Referenced implementation : "https://machinelearningmastery.com/prediction-intervals-for-machine-learning/"
 def bootStrap(num_times=1000):
@@ -25,7 +21,7 @@ def bootStrap(num_times=1000):
 def confidenceInterval(data):
     mean = np.mean(data)
     n = len(data)
-    std = scipy.std(data)
+    std = np.std(data)
     z_crit = 1.96
     margin_err = z_crit * std / math.sqrt(n)
     confi_intv = (mean - margin_err, mean + margin_err)

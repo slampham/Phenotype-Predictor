@@ -1,5 +1,4 @@
 import pickle
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -38,10 +37,10 @@ def pltPCA(X, y):
     y_name = pd.DataFrame(y).columns[0]
 
     plt.legend(loc='best')
-    plt.title('plots/P6-' + 'PCA-' + y_name + '.pdf')
+    plt.title('plots/P6-' + 'PCA-' + y_name + '.png')
     plt.xlabel('Principal Component 1')
     plt.ylabel('Principal Component 2')
-    plt.savefig('plots/P6-' + 'PCA-' + y_name + '.pdf')
+    plt.savefig('plots/P6-' + 'PCA-' + y_name + '.png')
 
 
 def pltTSNE(X, y):
@@ -53,8 +52,8 @@ def pltTSNE(X, y):
 
     y_name = pd.DataFrame(y).columns[0]
     plt.legend(loc='best')
-    plt.title('plots/P6-' + 'tSNE-' + y_name + '.pdf')
-    plt.savefig('plots/P6-' + 'tSNE-' + y_name + '.pdf')
+    plt.title('plots/P6-' + 'tSNE-' + y_name + '.png')
+    plt.savefig('plots/P6-' + 'tSNE-' + y_name + '.png')
 
 
 def reduceDimension():

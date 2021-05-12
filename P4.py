@@ -9,7 +9,7 @@ from sklearn.model_selection import KFold
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
-from tensorflow_core.python.keras.utils import np_utils
+import tensorflow as tf
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -25,7 +25,7 @@ def getData():
     X = df.iloc[:, 6:]
 
     # Use feature selection from P1
-    reg = pickle.load(open('models/P1.sav', 'rb'))
+    reg = pickle.load(open('models/P1.pkl', 'rb'))
     X = X[X.columns[reg.coef_ != 0]]
     print("Num features: ", X.shape[1])
 
@@ -39,9 +39,9 @@ def plotROC(problem):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title("plots/" + problem + "-ROC.pdf")
+    plt.title("plots/" + problem + "-ROC.png")
     plt.legend(loc="lower right")
-    plt.savefig("plots/" + problem + "-ROC.pdf")
+    plt.savefig("plots/" + problem + "-ROC.png")
     plt.close(fig=1)
 
 
@@ -51,9 +51,9 @@ def plotPR(problem):
     plt.ylim([0.0, 1.05])
     plt.xlabel('Recall')
     plt.ylabel('Precision')
-    plt.title("plots/" + problem + "-PR.pdf")
+    plt.title("plots/" + problem + "-PR.png")
     plt.legend(loc="lower right")
-    plt.savefig("plots/" + problem + "-PR.pdf")
+    plt.savefig("plots/" + problem + "-PR.png")
     plt.close(fig=2)
 
 
@@ -65,9 +65,10 @@ def fourSVM(X, ys, problem):
     for i, y in enumerate(ys):
         encoder = LabelEncoder()
         encoded_Y = encoder.fit_transform(y)
-        encoded_Y = np_utils.to_categorical(encoded_Y)
+        encoded_Y = tf.keras.utils.to_categorical(encoded_Y)
 
-        y_scores = []; y_tests = []
+        y_scores = []
+        y_tests = []
 
         kf = KFold(n_splits=5)
         for train, test in kf.split(X):

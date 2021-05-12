@@ -1,9 +1,7 @@
 import pickle
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from pandas import concat
 from sklearn.dummy import DummyClassifier
 from sklearn.metrics import roc_curve, auc, precision_recall_curve, accuracy_score, roc_auc_score
 from sklearn.model_selection import KFold, train_test_split
@@ -47,9 +45,9 @@ def plotROC(fpr, tpr, roc_auc):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('plots/P5-ROC.pdf')
+    plt.title('plots/P5-ROC.png')
     plt.legend(loc="lower right")
-    plt.savefig("plots/P5-ROC.pdf")
+    plt.savefig("plots/P5-ROC.png")
 
 
 def plotPR(recall, precision, pr_auc):
@@ -59,9 +57,9 @@ def plotPR(recall, precision, pr_auc):
     plt.ylim([0.0, 1.05])
     plt.xlabel('Recall')
     plt.ylabel('Precision')
-    plt.title('plots/P5-PR.pdf')
+    plt.title('plots/P5-PR.png')
     plt.legend(loc="lower right")
-    plt.savefig("plots/P5-PR.pdf")
+    plt.savefig("plots/P5-PR.png")
 
 
 # Referenced implementation: "https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html"
